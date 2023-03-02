@@ -1,8 +1,8 @@
 package com.example.registrationlogindemo.dto;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor

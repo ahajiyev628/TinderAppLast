@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Data
 public class LoginRq {
+  private String email;
   private String username;
   private String password;
   private boolean remember;

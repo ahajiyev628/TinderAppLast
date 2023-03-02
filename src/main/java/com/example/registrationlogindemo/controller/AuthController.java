@@ -1,66 +1,65 @@
 package com.example.registrationlogindemo.controller;
 
 import com.example.registrationlogindemo.dto.UserDto;
+import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.service.UserService;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
+import com.example.registrationlogindemo.service.impl.UserServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Controller
-public class AuthController {
 
+public class AuthController {
     private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
 //    @GetMapping("index")
 //    public String home(){
 //        return "login";
 //    }
 
-    @GetMapping("login")
-    public String loginForm() {
-        // System.out.println(userService.findByEmail("allahverdihajiyev@gmail.com").isPresent());
-        return "login";
-    }
+//    @GetMapping("login")
+//    public String loginForm() {
+//        // System.out.println(userService.findByEmail("allahverdihajiyev@gmail.com").isPresent());
+//        return "login";
+//    }
 
-    @GetMapping("mainpage")
+    @RequestMapping("mainpage")
     public String mainpage() {
+
         return "mainpage";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String email, @RequestParam String password, HttpSession session, RedirectAttributes redirectAttributes) {
-        User user = userService.findByEmail(email);
-        System.out.println(user.getEmail());
-        if (userService.findByEmail(email)!=null && BCrypt.checkpw(password, user.getPassword())) {
-            session.setAttribute("loggedInUser", user);
-            System.out.println("User " + user.getEmail() + " authenticated successfully.");
-            return "redirect:/main-page";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Invalid email or password.");
-            return "redirect:/login?error=true";
-        }
+
+//    @PostMapping("/user")
+//    public String postUser(Model model) {
+//        UserDto user = new UserDto();
+//        model.addAttribute("user", user);
+//        return "user";
+//    }
+//
+
+    @RequestMapping("/user")
+    public ModelAndView getUser() {
+
+        User user = new User(7L,"Jhon", "jhon84@gmail.com","123",
+                (List<Role>) new ArrayList<Role>());
+        ModelAndView modelAndView = new ModelAndView("user");
+        modelAndView.addObject("user", user);
+        return modelAndView;
     }
 
-//    @GetMapping("/login")
-//    public String login(@RequestParam String email, @RequestParam String password, HttpSession session) {
-//        if (userService.authenticate(email, password)) {
-//            session.setAttribute("loggedInUser", email);
-//            return "redirect:/main-page";
-//        } else {
-//            return "redirect:/login?error";
-//        }
-//    }
+
 
     @GetMapping("register")
     public String showRegistrationForm(Model model){
@@ -76,20 +75,29 @@ public class AuthController {
                                Model model){
         User existing = userService.findByEmail(user.getEmail());
         if (existing!=null) {
-            result.rejectValue("email", null, "There is already an account registered with that email");
+            result.rejectValue("email", null,
+                    "There is already an account registered with that email");
         }
         if (result.hasErrors()) {
             model.addAttribute("user", user);
             return "register";
         }
-        userService.saveUser(user);
+        userServiceImpl.saveUser(user);
         return "redirect:/login";
     }
 
-    @GetMapping("/users")
-    public String listRegisteredUsers(Model model){
-        List<UserDto> users = userService.findAllUsers();
-        model.addAttribute("users", users);
-        return "users";
+//    @GetMapping("/users")
+//    public String listRegisteredUsers(Model model){
+//        List<UserDto> users = userService.findAllUsers();
+//        model.addAttribute("users", users);
+//        return "users";
     }
-}
+
+//    @GetMapping("/users")
+//    public String listRegisteredUsers(Model model){
+//        List<UserDto> users = userServiceImpl.findAllUsers();
+//        model.addAttribute("users", users);
+//        return "users";
+//    }
+
+

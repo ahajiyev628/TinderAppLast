@@ -1,36 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Tinder: Main Page</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main-page.css">
 </head>
 <body>
 
+
 <header class="main-header">
-    <a href="./mainpage.html" class="main-header-logo"><img src="./img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+    <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
         <label class="main-header-search-wrapper">
             <input type="search" class="main-header-search" placeholder="Add new profile">
-            <img src="./img/search-icon.svg" alt="Search Icon">
+            <img src="img/search-icon.svg" alt="Search Icon">
         </label>
         <div class="main-header-profile-wrapper">
             <div class="main-header-profile-credentials">
                 <span class="main-header-profile-welcome">Welcome,</span>
-                <span class="main-header-username">Sample User</span>
+                <span class="main-header-username">
+<!--                    <span th:text="${user.getName()}"></span>-->
+<!--                     <span th:text="${#authentication.getName()}">-->
+                </span>
+<!--                 th:text="${#authentication.getName()}"-->
             </div>
-            <img class="main-header-user-icon" src="./img/user-icon-with-background.svg" alt="User Icon">
+            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><a href="my-profile.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
-                    <li class="hidden-accordion-item"><a href="favourites.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
-                    <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/message-icon.svg" alt="Message Icon">Chat</a></li>
-                    <li class="hidden-accordion-item"><a href="login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
+                    <li class="hidden-accordion-item"><a href="my-profile.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+                    <li class="hidden-accordion-item"><a href="favourites.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
+                    <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/message-icon.svg" alt="Message Icon">Chat</a></li>
+                    <li class="hidden-accordion-item"><a href="login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+
 <section class="main-section">
     <div class="main-section-description-wrapper">
         <h1 class="main-section-description-title">Lorem</h1>
@@ -42,7 +50,7 @@
             <div class="main-section-card">
                 <span class="main-section-card-name">Sample Name</span>
                 <div class="main-section-card-picture-wrapper">
-                    <img src="./img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
+                    <img src="img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
                     <div class="card-like-dislike-buttons">
                         <a href="#" class="like-button"><div class="like-icon"><svg width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M30.6055 17.8477C30.7461 18.3164 30.8164 18.8008 30.8164 19.293C30.8164 20.3984 30.4531 21.4609 29.7969 22.3281C29.9375 22.7969 30.0078 23.2812 30.0078 23.7734C30.0078 24.8789 29.6445 25.9414 28.9883 26.8086C29.1289 27.2773 29.1992 27.7617 29.1992 28.2539C29.1992 30.2695 28 32.0859 26.1406 32.8789C25.8138 33.0198 25.4614 33.0916 25.1055 33.0898H6.66406V16.3711H6.67578L10.0273 4.23047C10.5664 2.27344 12.3633 0.90625 14.3945 0.90625C15.5547 0.90625 16.6367 1.36719 17.4375 2.21094C18.2383 3.05078 18.6484 4.15234 18.5898 5.3125L18.3555 10.1133H27.7266C28.1992 10.1133 28.6602 10.2383 29.0664 10.4766C30.6445 11.3945 31.625 13.0586 31.625 14.8125C31.625 15.918 31.2617 16.9805 30.6055 17.8477ZM0.375 31.8438V17.625C0.375 16.9336 0.933594 16.375 1.625 16.375H4.16406V33.0938H1.625C0.933594 33.0938 0.375 32.5352 0.375 31.8438Z" fill="#BDBDBD"/>
@@ -59,7 +67,7 @@
         <div class="main-section-card">
             <span class="main-section-card-name">Sample Name</span>
             <div class="main-section-card-picture-wrapper bg-none">
-                <img src="./img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
+                <img src="img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
                 <div class="card-like-dislike-buttons unactive">
                     <a href="#" class="like-button"><div class="like-icon"><svg width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M30.6055 17.8477C30.7461 18.3164 30.8164 18.8008 30.8164 19.293C30.8164 20.3984 30.4531 21.4609 29.7969 22.3281C29.9375 22.7969 30.0078 23.2812 30.0078 23.7734C30.0078 24.8789 29.6445 25.9414 28.9883 26.8086C29.1289 27.2773 29.1992 27.7617 29.1992 28.2539C29.1992 30.2695 28 32.0859 26.1406 32.8789C25.8138 33.0198 25.4614 33.0916 25.1055 33.0898H6.66406V16.3711H6.67578L10.0273 4.23047C10.5664 2.27344 12.3633 0.90625 14.3945 0.90625C15.5547 0.90625 16.6367 1.36719 17.4375 2.21094C18.2383 3.05078 18.6484 4.15234 18.5898 5.3125L18.3555 10.1133H27.7266C28.1992 10.1133 28.6602 10.2383 29.0664 10.4766C30.6445 11.3945 31.625 13.0586 31.625 14.8125C31.625 15.918 31.2617 16.9805 30.6055 17.8477ZM0.375 31.8438V17.625C0.375 16.9336 0.933594 16.375 1.625 16.375H4.16406V33.0938H1.625C0.933594 33.0938 0.375 32.5352 0.375 31.8438Z" fill="#BDBDBD"/>
@@ -75,7 +83,7 @@
         <div class="main-section-card">
             <span class="main-section-card-name">Sample Name</span>
             <div class="main-section-card-picture-wrapper bg-none">
-                <img src="./img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
+                <img src="img/sample-user-avatar.png" alt="Sample Avatar" class="main-section-card-picture">
                 <div class="card-like-dislike-buttons unactive">
                     <a href="#" class="like-button"><div class="like-icon"><svg width="32" height="34" viewBox="0 0 32 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M30.6055 17.8477C30.7461 18.3164 30.8164 18.8008 30.8164 19.293C30.8164 20.3984 30.4531 21.4609 29.7969 22.3281C29.9375 22.7969 30.0078 23.2812 30.0078 23.7734C30.0078 24.8789 29.6445 25.9414 28.9883 26.8086C29.1289 27.2773 29.1992 27.7617 29.1992 28.2539C29.1992 30.2695 28 32.0859 26.1406 32.8789C25.8138 33.0198 25.4614 33.0916 25.1055 33.0898H6.66406V16.3711H6.67578L10.0273 4.23047C10.5664 2.27344 12.3633 0.90625 14.3945 0.90625C15.5547 0.90625 16.6367 1.36719 17.4375 2.21094C18.2383 3.05078 18.6484 4.15234 18.5898 5.3125L18.3555 10.1133H27.7266C28.1992 10.1133 28.6602 10.2383 29.0664 10.4766C30.6445 11.3945 31.625 13.0586 31.625 14.8125C31.625 15.918 31.2617 16.9805 30.6055 17.8477ZM0.375 31.8438V17.625C0.375 16.9336 0.933594 16.375 1.625 16.375H4.16406V33.0938H1.625C0.933594 33.0938 0.375 32.5352 0.375 31.8438Z" fill="#BDBDBD"/>
@@ -90,5 +98,6 @@
         </div>
     </div>
 </section>
+
 </body>
 </html>

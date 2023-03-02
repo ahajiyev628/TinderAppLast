@@ -5,32 +5,36 @@ import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.UserRepository;
-import com.example.registrationlogindemo.service.UserService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-@AllArgsConstructor
+//@Service
+
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserServiceIn {
 
+    @Autowired
     private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepository roleRepository;
 
-//    public Boolean authenticate(String email, String password) {
-//        Optional<User> userOptional = userRepository.findByEmail(email);
-//        if (userOptional.isEmpty()) {
-//            return false;
-//        }
-//        User user = userOptional.get();
-//        return passwordEncoder.matches(password, user.getPassword());
-//    }
+    @Override
+    public boolean authenticate(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            String encodedPassword = passwordEncoder.encode(password);
+            if (encodedPassword.equals(user.getPassword())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     @Override
     public void saveUser(UserDto userDto) {
@@ -48,28 +52,6 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-
-    @Override
-    public List<UserDto> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map((user) -> convertEntityToDto(user))
-                .collect(Collectors.toList());
-    }
-
-    private UserDto convertEntityToDto(User user){
-        UserDto userDto = new UserDto();
-        String[] name = user.getName().split(" ");
-        userDto.setFirstName(name[0]);
-        //userDto.setLastName(name[1]);
-        userDto.setEmail(user.getEmail());
-        return userDto;
     }
 
     private Role checkRoleExist() {
