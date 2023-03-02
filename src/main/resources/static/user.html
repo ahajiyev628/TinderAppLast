@@ -4,6 +4,9 @@
     <title>User Page</title>
 </head>
 <body>
-<h1>Welcome, <span th:text="${user.getName()}"></span>!</h1>
+<!--<h1>Welcome, <span th:text="${user.getName()}"></span>!</h1>-->
+<div th:if="${#authentication.principal != null}">
+    <p>Signed in as: <span th:text="${#authentication.principal.username}"></span></p>
+</div>
 </body>
 </html>

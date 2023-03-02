@@ -11,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +32,10 @@ public class AuthController {
 //        // System.out.println(userService.findByEmail("allahverdihajiyev@gmail.com").isPresent());
 //        return "login";
 //    }
-
     @RequestMapping("mainpage")
     public String mainpage() {
-
         return "mainpage";
     }
-
-
 //    @PostMapping("/user")
 //    public String postUser(Model model) {
 //        UserDto user = new UserDto();
@@ -48,18 +43,14 @@ public class AuthController {
 //        return "user";
 //    }
 //
-
     @RequestMapping("/user")
     public ModelAndView getUser() {
-
         User user = new User(7L,"Jhon", "jhon84@gmail.com","123",
                 (List<Role>) new ArrayList<Role>());
         ModelAndView modelAndView = new ModelAndView("user");
         modelAndView.addObject("user", user);
         return modelAndView;
     }
-
-
 
     @GetMapping("register")
     public String showRegistrationForm(Model model){

@@ -2,10 +2,8 @@ package com.example.registrationlogindemo.entity;
 
 import javax.persistence.*;
 import lombok.*;
-
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 @NoArgsConstructor

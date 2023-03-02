@@ -13,25 +13,31 @@
     <a href="./login.html" class="header-link"><img src="./img/iba-logo.svg" alt="IBA Tech Academy"></a>
 </header>
 <section class="login-section">
+
     <img class="login-section-image" src="./img/login-background.svg" alt="404">
     <div class="login-section-container">
         <h1 class="login-section-container-title">Welcome Back!</h1>
-        <p class="login-section-container-description">To keep connected with us please login with personal information by email address and password</p>
-<!--        <form action="/login" class="login-section-container-form" method="post">-->
+<!--        <div th:if="${param.error}">-->
+<!--            <div class="alert alert-danger">Invalid Email and Password.</div>-->
+<!--        </div>-->
+<!--        <div th:if="${param.logout}">-->
+<!--            <div class="alert alert-success">You have been logged out.</div>-->
+<!--        </div>-->
+        <p class="login-section-container-description">To keep connected with us please login with personal
+            information by email address and password</p>
             <form action="/login" method="post" th:action="@{/login}">
-
             <div class="login-section-container-form-input-wrapper">
                 <img src="./img/mail-icon.svg" alt="User Icon">
                 <label for="email"></label>
-<!--                <input class="login-section-container-form-input" id="email" placeholder="Email address"-->
+<!--                <input  id="email" placeholder="Email address"-->
 <!--                       type="email" name="email">-->
-                <input type="text" id="email" name="email" required autofocus>
+                <input class="login-section-container-form-input" type="text" id="email" name="email" required autofocus>
             </div>
             <div class="login-section-container-form-input-wrapper">
                 <img src="./img/lock-icon.svg" alt="User Icon">
                 <label for="password"></label>
-                <input type="password" id="password" name="password" required>
-<!--                <input class="login-section-container-form-input" id="password" placeholder="Password" type="password" name="password">-->
+                <input class="login-section-container-form-input" type="password" id="password" name="password" required>
+<!--                <input  id="password" placeholder="Password" type="password" name="password">-->
             </div>
             <div class="login-section-container-options">
                 <div class="login-section-container-options-wrapper">
@@ -44,13 +50,10 @@
             </div>
 
             <div class="login-section-form-buttons">
-<!--                <button type="submit">Login now</button>-->
-                <button class="btn btn-lg btn-primary btn-block"
-                        name="Submit" value="Login" type="Submit" th:text="Login"></button>
-
-                <!--                 lass="login-section-container-form-login" -->
-<!--                <a th:href="@{/mainpage}" c>Login now</a>-->
-<!--                th:href="@{/mainpage}"-->
+                <button type="submit" class="login-section-container-form-signup"
+                        th:text="Login" value="Login">Login now</button>
+                <div th:if="${param.error}" class="alert alert-error">Invalid username and password.
+                </div>
                 <a th:href="@{/register}" class="login-section-container-form-signup">Create account</a>
             </div>
             <div class="login-section-form-social">
