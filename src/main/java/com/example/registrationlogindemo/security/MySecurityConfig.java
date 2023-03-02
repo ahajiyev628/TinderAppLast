@@ -36,6 +36,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 ////        .antMatchers("/news/**").hasAnyRole("ADMIN", "USER")
 ////        .anyRequest().authenticated();
 //  }
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();}
 
   @Autowired
   public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {

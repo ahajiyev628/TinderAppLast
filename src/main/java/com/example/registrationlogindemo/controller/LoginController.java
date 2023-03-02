@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
-
 @Controller
 @Slf4j
 public class LoginController {
@@ -23,17 +22,14 @@ public class LoginController {
     private UserServiceImpl userServiceImpl;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
     }
-
     @GetMapping("/mainpage")
     public String showMainPage() {
         return "mainpage";
     }
-
 
     //    @PostMapping("login")
 //    public void handle_login(@RequestBody LoginRequest request) {
@@ -67,24 +63,20 @@ public class LoginController {
         String email = request.getEmail();
         String password = request.getPassword();
         log.info("girildi posta");
-        boolean isAuthenticated = userServiceImpl.authenticate(email, password);
+        System.out.println("girildi posta2");
 
-        System.out.println( userService.findByEmail(email).getEmail());
-        System.out.println(password);
-
-        System.out.println(userService.findByEmail(email).getPassword());
-//        System.out.println(userServiceImpl.matches(email, password));
-//        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        System.out.println(passwordEncoder.encode(password));
-        //"$2a$10$1RhHeYUBT4fd.PlcZVBcCOFNLIpKO89mLunpYovkQ5QkOI8EJj91C"
-//        $2a$10$v4RZeelYISPhH4HsZM3PGeH6piMH4CVwGcGuppdn9VaH/ROUyqXrG
+        boolean isAuthenticated = passwordEncoder.matches(request.getPassword(),userService.findByEmail(email).getPassword());
+        log.info(userService.findByEmail(email).getEmail());
+        log.info(password);
+        log.info(userService.findByEmail(email).getPassword());
+        log.info("girildi posta " +  passwordEncoder.encode(password));
         if (isAuthenticated) {
-            System.out.println("giriş doğruysa, kullanıcıyı bir sonraki sayfaya yönlendirin");
+            log.info("giriş doğruysa, kullanıcıyı bir sonraki sayfaya yönlendirin");
             // doğruysa, kullanıcıyı bir sonraki sayfaya yönlendirin
             return new RedirectView("/mainpage");
         } else {
             // yanlış giriş yapıldığını bildiren bir hata mesajı gösterin
-            System.out.println("yanlış giriş yapıldığını bildiren bir hata mesajı gösterin");
+            log.info("yanlış giriş yapıldığını bildiren bir hata mesajı gösterin");
             return new RedirectView("/login?error=true");
         }
     }
