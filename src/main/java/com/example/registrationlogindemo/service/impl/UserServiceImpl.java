@@ -14,6 +14,7 @@ import java.util.Arrays;
 public class UserServiceImpl implements UserServiceIn {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
     private RoleRepository roleRepository;
@@ -21,7 +22,7 @@ public class UserServiceImpl implements UserServiceIn {
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
-        user.setName(userDto.getFirstName()); //+ " " + userDto.getLastName()
+        user.setUsername(userDto.getFirstName()); //+ " " + userDto.getLastName()
         user.setEmail(userDto.getEmail());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         Role role = roleRepository.findByName("ROLE_ADMIN");
