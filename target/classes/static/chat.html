@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="background-color: #EDF2F5">
+<div style="margin-bottom: 30px; margin-top: 10px">
+    <a href="/add-group" style="text-decoration: none; font-size: 20px; background-color: #3855E1; color: white; padding: 5px 5px 5px 5px; border-radius: 10px; box-shadow: 5px 5px 5px black" >Back</a>
+</div>
+<div style="width: 100%; border: 2px solid blue; height: 80%; border-radius: 20px;">
+<div  th:each="message : ${messages}">
+
+    <p th:text="${message.getSender_name()}" style="background-color: blue; margin-left: 10px; color: white; border-radius: 30px; width: 100px; padding: 6px 6px 6px 6px"></p>
+    <p th:text="${message.getMsg_text()}" style="margin-left: 10px; border-radius: 30px; border: 2px solid blue; width: 150px; padding: 6px 6px 6px 6px"></p>
+
+</div>
+</div>
+
+<div style="position: fixed;">
+<form style="margin-top: 630px;" action="/sendMessage" method="post">
+    <input type="text" name="msg_text" style="width: 1500px; height: 40px; border-radius: 40px; margin-left: 10px; border: 2px solid blue;" placeholder=" Type Something">
+    <input type="submit" style="width: 100px; height: 40px; border-radius: 40px; border: none; color: white; background-color: #3855E1;" value="Send">
+</form>
+</div>
+
+</body>
+</html>
