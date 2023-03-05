@@ -1,58 +1,80 @@
 package com.example.registrationlogindemo.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.*;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 @Entity
 @Table(name = "favorites")
-public class Favorites implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Favorites {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // @Column(nullable = false)
-    private String status; // This can be either "like" or "dislike"
+    @Column(name = "user_id")
+    private Long likedById;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "favorites")
-    private Set<User> users = new HashSet<>();
+    @Column(name = "liked_user_id")
+    private Long likedUserId;
 
-    public Set<User> getUsers() {
-        return users;
-    }
+    private String status;
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
+    public Favorites() {}
 
-    public Favorites() {
-
-    }
-    public Favorites(Set<User> users, String status) {
+    public Favorites(Long likedById, Long likedUserId, String status) {
+        this.likedById = likedById;
+        this.likedUserId = likedUserId;
         this.status = status;
-        this.users = users;
     }
 
-    public Favorites(Optional<User> user, String status) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getLikedById() {
+        return likedById;
+    }
+
+    public void setLikedById(Long likedById) {
+        this.likedById = likedById;
+    }
+
+    public Long getLikedUserId() {
+        return likedUserId;
+    }
+
+    public void setLikedUserId(Long likedUserId) {
+        this.likedUserId = likedUserId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
-        this.users = users;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Favorites favorites = (Favorites) o;
+        return Objects.equals(id, favorites.id) && Objects.equals(likedById, favorites.likedById) && Objects.equals(likedUserId, favorites.likedUserId) && Objects.equals(status, favorites.status);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, likedById, likedUserId, status);
     }
 }
-
-

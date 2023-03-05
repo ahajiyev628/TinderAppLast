@@ -7,10 +7,7 @@ import javax.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +19,7 @@ public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "user_id")
+    @Column(name = "id", unique = true)
     private Long id;
 
     @NotBlank(message = "Username is required")
@@ -47,13 +44,42 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Message> messages = new ArrayList<>();
 
+//    @ManyToMany(cascade = { CascadeType.ALL })
+//    @JoinTable(
+//            name = "favorites",
+//            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+//            inverseJoinColumns = { @JoinColumn(name = "favorite_id", referencedColumnName = "id"), @JoinColumn(name = "user_id", referencedColumnName = "user_id") }
+//    )
+//    private Set<Favorites> favorites = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "favorites_users",
-            joinColumns = {@JoinColumn(name = "favorites_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
-    private Set<Favorites> favorites = new HashSet<>();
+//    @OneToMany(mappedBy = "user")
+//    private Set<Favorites> favorites = new HashSet<>();
+
+    @OneToMany(mappedBy = "likedById", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorites> likedUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "likedUserId", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorites> likedByUsers = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }
-
-
