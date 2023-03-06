@@ -13,10 +13,15 @@ import java.util.Optional;
 
 @Repository
 public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
-    List<Favorites> findByStatus(String status);
-    Favorites save(Favorites favorites);
-    //void saveFavorites(Long userId, Long likedUserId, String status);
 
+    List<Favorites> findByStatus(String status);
+
+   // List<Favorites> findByLikedBy_IdAndLikedUser_Id(Long likedById, Long likedUserId);
+
+    //List<Favorites> findByLikedByAndLikedUser(Long likedById, Long likedUserId);
+
+    @Query("SELECT f FROM Favorites f WHERE f.likedBy.id = :likedById AND f.likedUser.id = :likedUserId")
+    List<Favorites> findByLikedByAndLikedUser(@Param("likedById") Long likedById, @Param("likedUserId") Long likedUserId);
 }
 
 

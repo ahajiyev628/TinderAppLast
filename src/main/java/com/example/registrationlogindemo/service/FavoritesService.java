@@ -16,28 +16,23 @@ import java.util.stream.Collectors;
 @Service
 public class FavoritesService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final FavoritesRepository favoritesRepository;
 
-    @Autowired
-    private FavoritesRepository favoritesRepository;
+    public FavoritesService(FavoritesRepository favoritesRepository) {
+        this.favoritesRepository = favoritesRepository;
+    }
 
-    public List<Favorites> findAll() {
-        return favoritesRepository.findAll();
+    public void saveFavorites(Long likedById, Long likedUserId, String status) {
+        List<Favorites> existingFavorites = favoritesRepository.findByLikedByAndLikedUser(likedById, likedUserId);
+        if (!existingFavorites.isEmpty()) {
+            Favorites favorites = existingFavorites.get(0);
+            favorites.setStatus(status);
+            System.out.println("-----------------------");
+            favoritesRepository.save(favorites);
+        }
     }
 
     public List<Favorites> findByStatus(String status) {
         return favoritesRepository.findByStatus(status);
-    }
-
-//    public Favorites saveFavorites(Favorites favorites) {
-//        return favoritesRepository.save(favorites);
-//    }
-
-    public void saveFavorites(Long userId, Long likedUserId, String status) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        User likedUser = userRepository.findById(likedUserId).orElseThrow(() -> new UserNotFoundException(likedUserId));
-        Favorites favorites = new Favorites(user.getId(), likedUser.getId(), status);
-        favoritesRepository.save(favorites);
     }
 }

@@ -8,29 +8,39 @@ import java.util.*;
 import javax.persistence.*;
 
 @Data
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "favorites")
-public class Favorites {
+public class Favorites implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long likedById;
-
-    @Column(name = "liked_user_id")
-    private Long likedUserId;
-
+    // This can be either "like" or "dislike"
+    @Column(nullable = false)
     private String status;
 
-    public Favorites() {}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user1_id", referencedColumnName = "id")
+    private User likedBy;
 
-    public Favorites(Long likedById, Long likedUserId, String status) {
-        this.likedById = likedById;
-        this.likedUserId = likedUserId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user2_id", referencedColumnName = "id")
+    private User likedUser;
+
+    @ManyToMany(mappedBy="favorites")
+    private List<User> users;
+
+    public Favorites(String status, User likedBy, User likedUser) {
         this.status = status;
+        this.likedBy = likedBy;
+        this.likedUser = likedUser;
     }
 
     public Long getId() {
@@ -41,22 +51,6 @@ public class Favorites {
         this.id = id;
     }
 
-    public Long getLikedById() {
-        return likedById;
-    }
-
-    public void setLikedById(Long likedById) {
-        this.likedById = likedById;
-    }
-
-    public Long getLikedUserId() {
-        return likedUserId;
-    }
-
-    public void setLikedUserId(Long likedUserId) {
-        this.likedUserId = likedUserId;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -65,16 +59,51 @@ public class Favorites {
         this.status = status;
     }
 
+    public User getLikedBy() {
+        return likedBy;
+    }
+
+    public void setLikedBy(User likedBy) {
+        this.likedBy = likedBy;
+    }
+
+    public User getLikedUser() {
+        return likedUser;
+    }
+
+    public void setLikedUser(User likedUser) {
+        this.likedUser = likedUser;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Favorites favorites = (Favorites) o;
-        return Objects.equals(id, favorites.id) && Objects.equals(likedById, favorites.likedById) && Objects.equals(likedUserId, favorites.likedUserId) && Objects.equals(status, favorites.status);
+        return Objects.equals(id, favorites.id) && Objects.equals(status, favorites.status) && Objects.equals(likedBy, favorites.likedBy) && Objects.equals(likedUser, favorites.likedUser) && Objects.equals(users, favorites.users);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, likedById, likedUserId, status);
+        return Objects.hash(id, status, likedBy, likedUser, users);
+    }
+
+    @Override
+    public String toString() {
+        return "Favorites{" +
+                "id=" + id +
+                ", status='" + status + '\'' +
+                ", likedBy=" + likedBy +
+                ", likedUser=" + likedUser +
+                ", users=" + users +
+                '}';
     }
 }
