@@ -16,12 +16,21 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
 
     List<Favorites> findByStatus(String status);
 
-   // List<Favorites> findByLikedBy_IdAndLikedUser_Id(Long likedById, Long likedUserId);
+    // List<Favorites> findByLikedBy_IdAndLikedUser_Id(Long likedById, Long likedUserId);
 
     //List<Favorites> findByLikedByAndLikedUser(Long likedById, Long likedUserId);
 
     @Query("SELECT f FROM Favorites f WHERE f.likedBy.id = :likedById AND f.likedUser.id = :likedUserId")
     List<Favorites> findByLikedByAndLikedUser(@Param("likedById") Long likedById, @Param("likedUserId") Long likedUserId);
+
+    @Query("SELECT f FROM Favorites f WHERE f.status = :status AND f.likedBy.id = :likedById")
+    List<Favorites> findByStatusAndLikedBy(@Param("status") String status, @Param("likedById") Long likedById);
+
+    @Query("SELECT f FROM Favorites f WHERE f.likedUser.id = :likedUserId AND f.likedBy.id = :likedById")
+    Favorites findByLikedUserAndLikedBy(@Param("likedUserId") Long likedUserId, @Param("likedById") Long likedById);
+
+    @Override
+    void delete(Favorites entity);
 }
 
 

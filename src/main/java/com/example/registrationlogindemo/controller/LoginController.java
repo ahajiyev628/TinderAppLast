@@ -1,10 +1,14 @@
 package com.example.registrationlogindemo.controller;
 
 import com.example.registrationlogindemo.dto.SignInRequest;
+import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +35,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public RedirectView submitLoginForm(SignInRequest request,  HttpSession session) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            User currentUser = (User) authentication.getPrincipal();
+            session.setAttribute("userId", currentUser.getId());
+        }
         String email = request.getEmail();
         String password = request.getPassword();
         log.info("girildi post");

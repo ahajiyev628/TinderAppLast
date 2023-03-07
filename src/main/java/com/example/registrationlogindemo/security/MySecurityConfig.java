@@ -75,6 +75,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
             .csrf().disable();
   }
 
+
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,5 +35,17 @@ public class FavoritesService {
 
     public List<Favorites> findByStatus(String status) {
         return favoritesRepository.findByStatus(status);
+    }
+
+    public List<Favorites> findByStatusAndLikedBy(String like, Long currentUserId) {
+        return favoritesRepository.findByStatusAndLikedBy(like, currentUserId);
+    }
+
+    public Favorites findByLikedUserAndLikedBy(Long userId, Long currentUserId) {
+        return favoritesRepository.findByLikedUserAndLikedBy(userId, currentUserId);
+    }
+
+    public void delete(Favorites favorite) {
+        favoritesRepository.delete(favorite);
     }
 }
