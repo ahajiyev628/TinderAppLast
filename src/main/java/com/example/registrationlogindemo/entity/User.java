@@ -4,9 +4,11 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.example.registrationlogindemo.enums.Gender;
 import lombok.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
 
 @NoArgsConstructor
@@ -21,8 +23,11 @@ public class User implements Serializable {
     private Long id;
 
     @NotBlank(message = "Username is required")
-    @Column(name = "username", unique = true)
-    private String username;
+    @Column(name = "firstname", unique = true)
+    private String firstname;
+
+    @Column(nullable=true)
+    private String surname;
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password should have at least 6 characters")
@@ -32,6 +37,18 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable=true)
+    private String nickname;
+
+    @Column(nullable=true)
+    private String location;
+
+    @Column(nullable=true)
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    @Column(nullable=true)
+    private LocalDate birthday;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "users_roles",
@@ -39,9 +56,16 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
     private List<Role> roles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messages = new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Message> messages = new ArrayList<>();
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "messages_users",
+            joinColumns = { @JoinColumn(name = "user_id") },
+            inverseJoinColumns = { @JoinColumn(name = "msg_id") }
+    )
+    private List<Message> messages = new ArrayList<>();
 
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
@@ -59,13 +83,6 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     public String getPassword() {
         return password;
@@ -107,6 +124,54 @@ public class User implements Serializable {
         this.favorites = favorites;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(LocalDate birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -124,7 +189,7 @@ public class User implements Serializable {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", username='" + username + '\'' +
+                ", firstname='" + firstname + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

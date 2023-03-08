@@ -1,4 +1,4 @@
-package com.example.registrationlogindemo.entity;
+package com.example.registrationlogindemo.enums;
 
 public enum FavoriteStatus {
     LIKED,

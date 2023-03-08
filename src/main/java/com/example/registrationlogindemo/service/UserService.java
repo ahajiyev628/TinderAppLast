@@ -19,14 +19,15 @@ public class UserService {
             return null;
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return userRepository.findByUsername(userDetails.getUsername());
+        return userRepository.findByFirstname(userDetails.getUsername());
     }
-        private final UserRepository userRepository;
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    private final UserRepository userRepository;
         public UserService(UserRepository userRepository) {
             this.userRepository = userRepository;
-        }
-        public User findByEmail(String email) {
-            return userRepository.findByEmail(email);
         }
 
         public Set<User> findAll() {return userRepository.findAll().stream().collect(Collectors.toSet());}

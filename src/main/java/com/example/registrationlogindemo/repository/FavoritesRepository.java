@@ -26,7 +26,7 @@ public interface FavoritesRepository extends JpaRepository<Favorites, Long> {
     @Query("SELECT f FROM Favorites f WHERE f.status = :status AND f.likedBy.id = :likedById")
     List<Favorites> findByStatusAndLikedBy(@Param("status") String status, @Param("likedById") Long likedById);
 
-    @Query("SELECT f FROM Favorites f WHERE f.likedUser.id = :likedUserId AND f.likedBy.id = :likedById")
+    @Query("SELECT Distinct f FROM Favorites f WHERE f.likedUser.id = :likedUserId AND f.likedBy.id = :likedById")
     Favorites findByLikedUserAndLikedBy(@Param("likedUserId") Long likedUserId, @Param("likedById") Long likedById);
 
     @Override

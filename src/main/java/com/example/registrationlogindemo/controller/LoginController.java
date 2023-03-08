@@ -1,6 +1,7 @@
 package com.example.registrationlogindemo.controller;
 
 import com.example.registrationlogindemo.dto.SignInRequest;
+import com.example.registrationlogindemo.dto.UserDto;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.service.impl.UserServiceImpl;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
+import com.example.registrationlogindemo.enums.Gender;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -34,62 +37,39 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public RedirectView submitLoginForm(SignInRequest request,  HttpSession session) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            User currentUser = (User) authentication.getPrincipal();
-            session.setAttribute("userId", currentUser.getId());
-        }
+    public RedirectView submitLoginForm(SignInRequest request, HttpSession session) {
         String email = request.getEmail();
         String password = request.getPassword();
         log.info("girildi post");
-        boolean isAuthenticated = passwordEncoder.matches(request.getPassword(),userService.findByEmail(email).getPassword());
+        boolean isAuthenticated = passwordEncoder.matches(request.getPassword(), userService.findByEmail(email).getPassword());
         log.info(userService.findByEmail(email).getEmail());
         log.info(password);
         log.info(userService.findByEmail(email).getPassword());
 //        log.info("girildi post " +  passwordEncoder.encode(password));
         if (isAuthenticated) {
-            String username = userService.findByEmail(email).getUsername();
+            Long id = userService.findByEmail(email).getId();
+            String username = userService.findByEmail(email).getFirstname();
+            String firstname = userService.findByEmail(email).getFirstname();
+            String sesEmail = userService.findByEmail(email).getEmail();
+            String surname = userService.findByEmail(email).getSurname();
+            String nickname = userService.findByEmail(email).getNickname();
+            String location = userService.findByEmail(email).getLocation();
+            Gender gender = userService.findByEmail(email).getGender();
             log.info("giriş doğruysa, kullanıcıyı bir sonraki sayfaya yönlendirin");
+            session.setAttribute("userId", id);
             session.setAttribute("username", username); // store the username in the session
+            session.setAttribute("firstname", firstname); // store the username in the session
+            session.setAttribute("sesEmail", sesEmail);
+            session.setAttribute("surname", surname); // store the username in the session
+            session.setAttribute("nickname", nickname);
+            session.setAttribute("location", location);
+            session.setAttribute("gender", gender);
             return new RedirectView("/mainpage");
 
         } else {
             log.info("yanlış giriş yapıldığını bildiren bir hata mesajı gösterin");
             return new RedirectView("login");
-    //           "/login?error=true"
+            //           "/login?error=true"
         }
     }
-
-
-
-//    @GetMapping("/mainpage")
-//    public String showMyPage(Model model, Authentication authentication) {
-//        log.info("tapilmadi");
-//
-//        User user = new User(7L,"Jhon", "jhon84@gmail.com","123",
-//                (List<Role>) new ArrayList<Role>());
-//
-//        //        getCurrentUsername(authentication)
-//        model.addAttribute("currentUsername", user);
-//        log.info(getCurrentUsername(authentication));
-//        log.info(user.getName());
-//        log.info();
-////        log.info(userService.findByEmail("jama93@gmial.com").getName());
-//        return "mainpage";
-//    }
-//    private String getCurrentUsername(Authentication authentication) {
-//        if (authentication != null && authentication.isAuthenticated()) {
-//            Object principal = authentication.getPrincipal();
-//            if (principal instanceof UserDetails) {
-//                return ((UserDetails)principal).getUsername();
-//            } else {
-//                return principal.toString();
-//            }
-//        } else {
-//            return null;
-//        }
-//    }
-
-
 }

@@ -39,7 +39,9 @@ public class FavoritesController {
     @GetMapping("/favorites")
     public String getFavorites(Model model, HttpSession session) {
         // Get the ID of the current user from the session
-        Long currentUserId = userRepository.findByUsername("Nizami").getId();
+        // Long currentUserId = userRepository.findByFirstname("Nizami").getId();
+
+        Long currentUserId = (Long) session.getAttribute("userId");
 
         //Long currentUserId = (Long) session.getAttribute("userId");
         System.out.println(currentUserId);
@@ -70,9 +72,10 @@ public class FavoritesController {
 
     @PostMapping("/favorites/{status}")
     public String updateFavorites(@RequestParam("userIds[]") List<Long> userIds, @PathVariable String status, Model model, HttpSession session) {
-        User likedBy = userRepository.findByUsername("Nizami"); //userService.getCurrentUser(); //Optional.ofNullable(userService.getCurrentUser());
+       // User likedBy = userRepository.findByFirstname("Nizami"); //userService.getCurrentUser(); //Optional.ofNullable(userService.getCurrentUser());
 //        System.out.println(userRepository.findByUsername("Nizami"));
 //        System.out.println(userService.getCurrentUser());   // return null
+        Long likedBy = (Long) session.getAttribute("userId");
 
 //        Long currentUserId = (Long) session.getAttribute("userId");
 //        Optional<User> likedBy = userService.findById(currentUserId);
@@ -89,64 +92,42 @@ public class FavoritesController {
 //                model.addAttribute("error", "User not found.");
 //                return "favorites";
 //            }
-            System.out.println(new Favorites(status,likedBy, likedUser.get()));
-            favoritesRepository.save(new Favorites(status, likedBy, likedUser.get()));
+
+            User whoLiked = userService.findById(likedBy).get();
+
+            System.out.println(new Favorites(status,whoLiked, likedUser.get()));
+            favoritesRepository.save(new Favorites(status, whoLiked, likedUser.get()));
             //favoritesService.saveFavorites(likedBy.getId(), likedUser.get().getId(), status);
         }
         model.addAttribute("success", "Favorites updated successfully.");
         return "redirect:/favorites";
     }
 
-//    @PostMapping("/favorites/remove")
-//    @ResponseBody
-//    public ResponseEntity<String> removeFavorite(@RequestParam("userId") Long userId,
-//                                                 @RequestParam("status") String status,
-//                                                 HttpSession session) {
-//        Long currentUserId = userRepository.findByUsername("Nizami").getId(); //(Long) session.getAttribute("userId");
-//
-//        if (currentUserId == null) {
-//            return ResponseEntity.badRequest().body("User not logged in");
-//        }
-//
-//        // Check if the current user has already liked or disliked the user with the given ID
-//        Favorites favorite = favoritesService.findByLikedUserAndLikedBy(userId, currentUserId);
-//        if (favorite == null || !favorite.getStatus().equals(status)) {
-//            return ResponseEntity.badRequest().body("User not found in favorites");
-//        }
-//
-//        // Remove the favorite and return a success response
-//        favoritesService.delete(favorite);
-//        return ResponseEntity.ok("Favorite removed");
-//    }
-
 
     @PostMapping("/favorites/remove")
-    public ResponseEntity<String> removeFavorite(@RequestParam("userId") Long userId,
-                                                 @RequestParam("status") String status,  HttpSession session) {
+    public String removeFavorite(@RequestParam("userId") Long userId,
+                                                 @RequestParam("status") String status,
+                                                 HttpSession session) {
 
 
-        // Check if the user is logged in
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            User currentUser = (User) authentication.getPrincipal();
-            session.setAttribute("userId", currentUser.getId());
-            Long currentUserId = (Long) session.getAttribute("userId");
-            // Long currentUserId = userRepository.findByUsername("Nizami").getId();
+        Long currentUserId = (Long) session.getAttribute("userId");
+
+        System.out.println(currentUserId);
 
             // Check if the current user has already liked or disliked the user with the given ID
-            Favorites favorite = favoritesService.findByLikedUserAndLikedBy(userId, currentUserId);
-            if (favorite == null || !favorite.getStatus().equals(status)) {
-                return ResponseEntity.badRequest().body("User not found in favorites");
-            }
+        Favorites favorite = favoritesService.findByLikedUserAndLikedBy(userId, currentUserId);
+        System.out.println(userId);
+//            if (favorite == null) {
+//                return ResponseEntity.badRequest().body("User not found in favorites");
+//            }
 
             // Remove the favorite and return a success response
-            favoritesService.delete(favorite);
-            return ResponseEntity.ok("Favorite removed");
-        } else {
-            return ResponseEntity.badRequest().body("User not logged in");
+        favoritesService.delete(favorite);
+            // return ResponseEntity.ok("Favorite removed");
+        return "redirect:/favorites";
         }
     }
 
 
 
-}
+
