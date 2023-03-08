@@ -9,7 +9,6 @@
 </head>
 <body>
 
-
 <header class="main-header">
     <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
     <div class="main-header-wrapper">
@@ -23,14 +22,16 @@
                 <h1>Welcome, [[${username}]]!</h1>
                 </span>
 
-<!--                </span>-->
-<!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
+                <!--                </span>-->
+                <!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
             </div>
             <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
             <div class="hidden-accordion-wrapper">
                 <ul class="hidden-accordion">
-                    <li class="hidden-accordion-item"><a href="my-profile.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
-                    <li class="hidden-accordion-item"><a href="favorites3.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
+                    <li class="hidden-accordion-item">
+                        <a href="my-profile" class="hidden-accordion-item-link">
+                            <img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+                    <li class="hidden-accordion-item"><a href="favorites.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
                     <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/message-icon.svg" alt="Message Icon">Chat</a></li>
                     <li class="hidden-accordion-item"><a href="login.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
                 </ul>
@@ -48,7 +49,7 @@
     </thead>
     <tbody>
     <tr th:each="user : ${users}">
-        <td th:text="${user.username}"></td>
+        <td th:text="${user.firstname}"></td>
         <td>
             <form th:action="@{/favorites/like}" method="post">
                 <input type="hidden" name="userIds[]" th:value="${user.id}" />
