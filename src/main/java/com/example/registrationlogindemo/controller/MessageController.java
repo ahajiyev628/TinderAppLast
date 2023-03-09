@@ -42,6 +42,8 @@ public class MessageController {
             model.addAttribute("sender", sender);
             model.addAttribute("receiver", receiver.get());
             model.addAttribute("receiverId", receiver.get().getId());
+            String username = (String) session.getAttribute("username"); // retrieve the username from the session
+            model.addAttribute("username", username);
             return "chat";
         }
         return "redirect:/favorites";

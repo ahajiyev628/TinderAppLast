@@ -1,28 +1,250 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Message</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
-<body style="background-color: #EDF2F5">
-<div style="margin-bottom: 30px; margin-top: 10px">
-    <a href="/add-group" style="text-decoration: none; font-size: 20px; background-color: #3855E1; color: white; padding: 5px 5px 5px 5px; border-radius: 10px; box-shadow: 5px 5px 5px black" >Back</a>
-</div>
-<div style="width: 100%; border: 2px solid blue; height: 80%; border-radius: 20px;">
-<div  th:each="message : ${messages}">
 
-    <p th:text="${message.getSender_name()}" style="background-color: blue; margin-left: 10px; color: white; border-radius: 30px; width: 100px; padding: 6px 6px 6px 6px"></p>
-    <p th:text="${message.getMsg_text()}" style="margin-left: 10px; border-radius: 30px; border: 2px solid blue; width: 150px; padding: 6px 6px 6px 6px"></p>
+<header class="main-header">
+    <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+    <div class="main-header-wrapper">
+        <label class="main-header-search-wrapper">
+            <input type="search" class="main-header-search" placeholder="Add new profile">
+            <img src="img/search-icon.svg" alt="Search Icon">
+        </label>
+        <div class="main-header-profile-wrapper">
+            <div class="main-header-profile-credentials">
+                <span class="main-header-profile-welcome">
+                <h1>Welcome, [[${username}]]!</h1>
+                </span>
 
-</div>
-</div>
 
-<div style="position: fixed;">
-<form style="margin-top: 630px;" action="/sendMessage" method="post">
-    <input type="text" name="msg_text" style="width: 1500px; height: 40px; border-radius: 40px; margin-left: 10px; border: 2px solid blue;" placeholder=" Type Something">
-    <input type="submit" style="width: 100px; height: 40px; border-radius: 40px; border: none; color: white; background-color: #3855E1;" value="Send">
-</form>
-</div>
+                <!--                </span>-->
+                <!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
+            </div>
+            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+            <div class="hidden-accordion-wrapper">
+                <ul class="hidden-accordion">
+                    <li class="hidden-accordion-item">
+                        <a href="my-profile" class="hidden-accordion-item-link">
+                            <img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+                    <li class="hidden-accordion-item"><a href="favorites.html" class="hidden-accordion-item-link">
+                        <img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">
+                        Favorites</a></li>
+                    <li class="hidden-accordion-item">
+                        <form method="post" action="/logout">
+                            <input class="hidden-accordion-item-image"
+                                   src="img/log-out-icon.svg"
+                                   type="submit"
+                                   value="Logout"
+                                   alt="Log Out Icon"
+                                   href="/logout">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
 
+<body>
+<!--<div style="width: 100%; border: 2px solid blue; height: 80%; border-radius: 20px;">-->
+<!--    <div  th:each="message : ${messages}">-->
+<!--      <p th:text="${message.getMsg_text()}" style="margin-left: 10px; border-radius: 30px; border: 2px solid blue; width: 150px; padding: 6px 6px 6px 6px"></p>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="message-form">
+    <div class="message-form">
+        <form action="/chat" method="post">
+            <input type="number" name="receiverId" value="${receiver.likedUser}">
+            <label for="msg_text">Message:</label>
+            <textarea name="msg_text" id="msg_text" required></textarea>
+            <input type="submit" value="Send">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+        </form>
+    </div>
+</div>
+<style>
+    .message-container {
+        width: 100%;
+        height: 80%;
+        border-radius: 20px;
+        border: 2px solid blue;
+        overflow-y: scroll; /* add scrollbar */
+    }
+
+    .message-box {
+        margin: 10px;
+        border-radius: 30px;
+        border: 2px solid blue;
+        width: 150px;
+        padding: 6px;
+        display: inline-block;
+        word-wrap: break-word; /* break long words */
+        max-width: 60%; /* set max-width to limit width of messages */
+    }
+
+    .message-text {
+        margin: 0;
+    }
+
+    body{
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .main-header{
+        padding: 10px 100px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #1B3E85;
+        align-items: center;
+    }
+
+    .main-header-logo{
+        width: 200px;
+    }
+
+
+    .main-header-wrapper{
+        display: flex;
+        align-items: center;
+    }
+
+    .hidden-accordion-wrapper{
+        right: 0;
+        z-index: 2;
+        opacity: 0;
+        position: absolute;
+        top: -300px;
+        transition: opacity 1s ease;
+    }
+
+    .hidden-accordion{
+        border-radius: 0 0 8px 8px;
+        background-color: white;
+        width: 100%;
+        list-style: none;
+        padding: 0;
+    }
+
+    .hidden-accordion-item{
+        padding: 12px 0 12px 20px;
+        width: 160px;
+        display: flex;
+        align-items: center;
+    }
+
+    .main-header-profile-wrapper:hover .hidden-accordion-wrapper{
+        top: 54px;
+        padding-top: 10px;
+        opacity: 1;
+    }
+
+    .hidden-accordion-item-link{
+        font-size: 16px;
+        color: #828282;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .hidden-accordion-item-image{
+        margin-right: 18px;
+    }
+
+    .hidden-accordion-item:hover{
+        background-color: #EDF2F5;
+        border-radius: 0 0 10px 10px;
+    }
+
+
+    .main-header-search-wrapper{
+        padding: 0 20px;
+        height: 50px;
+        display: flex;
+        background-color: white;
+        border-radius: 8px;
+        margin-right: 100px;
+    }
+
+    .main-header-search{
+        border: none;
+        margin-right: 100px;
+        outline: none;
+        font-size: 18px;
+    }
+
+    .main-header-profile-welcome{
+        display: block;
+    }
+
+    .main-header-profile-credentials{
+        color: white;
+        display: inline-block;
+        text-align: right;
+        margin-right: 20px;
+        border-bottom: 1px solid white;
+        padding-bottom: 2px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    .main-header-user-icon{
+        height: 70px;
+    }
+
+    .main-header-profile-wrapper{
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .main-header-profile-wrapper:active{
+        text-decoration: none;
+    }
+
+    .main-header-wrapper{
+        display: flex;
+        align-items: center;
+    }
+
+    .message-form {
+        margin-top: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid blue;
+        border-radius: 5px;
+        resize: none;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    input[type="submit"] {
+        background-color: blue;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+    }
+
+    input[type="submit"]:hover {
+        background-color: darkblue;
+    }
+</style>
 </body>
 </html>

@@ -8,16 +8,16 @@
 <p>Test
 </p>
 <form method="post" th:action="@{/user}" >
-<div>
-<label class="profile-description-date-container">
-    <span class="profile-description-date-description">Birthday</span>
-    <input type="text" name="birthday" th:value="${birthday}"
-           th:format="'yyyy-MM-dd'">
-</label>
-    <button class="save-button" type="submit"
-            th:text="Save" value="save">SaveInfo</button>
+    <div>
+        <label class="profile-description-date-container">
+            <span class="profile-description-date-description">Birthday</span>
+            <input type="text" name="birthday" th:value="${birthday}"
+                   th:format="'yyyy-MM-dd'">
+        </label>
+        <button class="save-button" type="submit"
+                th:text="Save" value="save">SaveInfo</button>
 
-</div>
+    </div>
 </form>
 </body>
 </html>

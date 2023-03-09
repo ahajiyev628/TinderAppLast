@@ -14,6 +14,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Data
 @Table(name="users")
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,17 +38,16 @@ public class User implements Serializable {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable=true)
     private String nickname;
-
     @Column(nullable=true)
     private String location;
-
     @Column(nullable=true)
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @Column(nullable=true)
     private LocalDate birthday;
+    @Column(nullable=true)
+    private String userInfo;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
@@ -74,95 +74,6 @@ public class User implements Serializable {
             inverseJoinColumns = { @JoinColumn(name = "favorite_id") }
     )
     private Set<Favorites> favorites = new HashSet<>();
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Set<Favorites> getFavorites() {
-        return favorites;
-    }
-
-    public void setFavorites(Set<Favorites> favorites) {
-        this.favorites = favorites;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
 
     @Override
     public boolean equals(Object o) {

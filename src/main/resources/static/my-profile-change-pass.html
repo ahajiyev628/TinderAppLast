@@ -29,9 +29,12 @@
                         <img class="hidden-accordion-item-image" src="./img/user-icon-gray.svg" alt="User Icon">Profile</a>
                     </li>
                     <li class="hidden-accordion-item">
-                        <a href="favorites.html" class="hidden-accordion-item-link">
+                        <a href="favourites.html" class="hidden-accordion-item-link">
                             <img class="hidden-accordion-item-image" src="./img/favourite-icon.svg" alt="Favourite Icon">Favourites</a>
                     </li>
+                    <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link">
+                        <img class="hidden-accordion-item-image" src="./img/message-icon.svg" alt="Message Icon">
+                        Chat</a></li>
                     <li class="hidden-accordion-item">
                         <form method="post" action="/logout">
                             <input class="hidden-accordion-item-image"
@@ -42,6 +45,7 @@
                                    href="/logout">
                         </form>
                     </li>
+
                 </ul>
             </div>
         </div>
@@ -51,7 +55,8 @@
     <div class="profile">
         <h2 class="profile-title">Profile</h2>
     </div>
-    <form method="post" th:action="@{/my-profile/save}">
+
+    <form method="post" th:action="@{/my-profile-change-pass/savePass}">
         <div class="profile-description-wrapper">
             <div class="container">
                 <div class="profile-wrapper">
@@ -61,101 +66,50 @@
                             <div class="profile-description-container">
                                 <div class="profile-description-container-wrapper">
                                     <label class="profile-description-container-label">
-                                        <span class="profile-description-container-text">FirstName</span>
-                                        <input class="profile-description-container-input"
-                                               name="firstname"
-                                               placeholder="${username}"
-                                               th:value="*{firstname}"
-                                               type="text"/>
+                                        <input class="profile-description-pass-input"
+                                               type="password"
+                                               placeholder="Old password"
+                                               id="oldPassword" name="oldPassword" required>
                                     </label>
                                     <a href="#" class="profile-description-container-input-edit">
                                         Edit <img src="./img/edit-icon.svg" class="profile-description-container-input-edit-icon"
                                                   alt=""></a>
                                 </div>
-                            </div>
-                            <div class="profile-description-container">
                                 <div class="profile-description-container-wrapper">
                                     <label class="profile-description-container-label">
-                                        <span class="profile-description-container-text">SurName</span>
-                                        <input class="profile-description-container-input"
-                                               name="surname"
-                                               placeholder="${surname}"
-                                               th:value="*{surname}"
-                                               type="text"/>
+                                        <input class="profile-description-pass-input"
+                                               type="password"
+                                               placeholder="New password"
+                                               id="newPassword" name="newPassword" required>
                                     </label>
                                     <a href="#" class="profile-description-container-input-edit">
                                         Edit <img src="./img/edit-icon.svg" class="profile-description-container-input-edit-icon"
                                                   alt=""></a>
                                 </div>
-                            </div>
-                            <div class="profile-description-container">
                                 <div class="profile-description-container-wrapper">
                                     <label class="profile-description-container-label">
-                                        <span class="profile-description-container-text">Nickname</span>
-                                        <input class="profile-description-container-input"
-                                               name="nickname"
-                                               placeholder="${nickname}"
-                                               th:value="*{nickname}"
-                                               type="text"/>
+
+                                        <input class="profile-description-pass-input"
+                                               type="password"
+                                               placeholder="Confirm new password"
+                                               id="confirmPassword" name="confirmPassword" required>
+
                                     </label>
                                     <a href="#" class="profile-description-container-input-edit">
                                         Edit <img src="./img/edit-icon.svg" class="profile-description-container-input-edit-icon"
                                                   alt=""></a>
                                 </div>
-                            </div>
-                            <div class="profile-description-container">
-                                <div class="profile-description-container-wrapper">
-                                    <label class="profile-description-container-label">
-                                        <span class="profile-description-container-text">Location</span>
-                                        <input class="profile-description-container-input"
-                                               name="location"
-                                               placeholder="Enter Location"
-                                               th:value="*{location}"
-                                               type="text"
-                                               value="Baku, Azerbaijan"
-                                        />
-                                    </label>
-                                    <a href="#" class="profile-description-container-input-edit">Edit <img src="./img/edit-icon.svg" class="profile-description-container-input-edit-icon" alt=""></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="profile-description-second-wrapper">
-                            <div class="profile-description-second-container"><label class="profile-description-select-container">
-                                <span class="profile-description-select-description">Gender</span>
-                                <select name="gender" id="gender-select">
-                                    <option value="MALE">MALE</option>
-                                    <option value="FEMALE">FEMALE</option>
-                                    <option value="OTHER">OTHER</option>
-                                </select>
-                                <p id="selected-gender"></p>
-                            </label>
-
-
-
-                                <label class="profile-description-date-container">
-                                    <span class="profile-description-date-description">Birthday</span>
-                                    <input class="profile-description-date-input" type="date" name="birthday" id="birthday-picker">
-                                    <p id="selected-date"></p>
-                                </label>
                             </div>
                         </div>
                         <span class="profile-description-tab-pass">
-                                <a href="my-profile-change-pass"><p>Password Change</p></a>
-                            </span>
+                                <a href="my-profile"><p>Information</p></a>
+                        </span>
                     </div>
                 </div>
             </div>
             <div class="container">
                 <button class="save-button" type="submit" th:text="Save"
                         value="save">Save</button>
-            </div>
-            <h2 class="profile-about-me-title">About Me</h2>
-            <div class="profile-description-container-wrapper">
-                <input class="profile-description-container-input"
-                       name="userInfo"
-                       placeholder="${userInfo}"
-                       th:value="*{userInfo}"
-                       type="textarea"/>
             </div>
         </div>
     </form>

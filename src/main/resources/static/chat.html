@@ -5,6 +5,49 @@
     <title>Message</title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
+
+<header class="main-header">
+    <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+    <div class="main-header-wrapper">
+        <label class="main-header-search-wrapper">
+            <input type="search" class="main-header-search" placeholder="Add new profile">
+            <img src="img/search-icon.svg" alt="Search Icon">
+        </label>
+        <div class="main-header-profile-wrapper">
+            <div class="main-header-profile-credentials">
+                <span class="main-header-profile-welcome">
+                <h1>Welcome, [[${username}]]!</h1>
+                </span>
+
+
+                <!--                </span>-->
+                <!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
+            </div>
+            <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
+            <div class="hidden-accordion-wrapper">
+                <ul class="hidden-accordion">
+                    <li class="hidden-accordion-item">
+                        <a href="my-profile" class="hidden-accordion-item-link">
+                            <img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+                    <li class="hidden-accordion-item"><a href="favorites.html" class="hidden-accordion-item-link">
+                        <img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">
+                        Favorites</a></li>
+                    <li class="hidden-accordion-item">
+                        <form method="post" action="/logout">
+                            <input class="hidden-accordion-item-image"
+                                   src="img/log-out-icon.svg"
+                                   type="submit"
+                                   value="Logout"
+                                   alt="Log Out Icon"
+                                   href="/logout">
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
 <body>
 <!--<div style="width: 100%; border: 2px solid blue; height: 80%; border-radius: 20px;">-->
 <!--    <div  th:each="message : ${messages}">-->
@@ -22,7 +65,6 @@
         </form>
     </div>
 </div>
-
 <style>
     .message-container {
         width: 100%;
@@ -45,6 +87,129 @@
 
     .message-text {
         margin: 0;
+    }
+
+    body{
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    .main-header{
+        padding: 10px 100px;
+        display: flex;
+        justify-content: space-between;
+        background-color: #1B3E85;
+        align-items: center;
+    }
+
+    .main-header-logo{
+        width: 200px;
+    }
+
+
+    .main-header-wrapper{
+        display: flex;
+        align-items: center;
+    }
+
+    .hidden-accordion-wrapper{
+        right: 0;
+        z-index: 2;
+        opacity: 0;
+        position: absolute;
+        top: -300px;
+        transition: opacity 1s ease;
+    }
+
+    .hidden-accordion{
+        border-radius: 0 0 8px 8px;
+        background-color: white;
+        width: 100%;
+        list-style: none;
+        padding: 0;
+    }
+
+    .hidden-accordion-item{
+        padding: 12px 0 12px 20px;
+        width: 160px;
+        display: flex;
+        align-items: center;
+    }
+
+    .main-header-profile-wrapper:hover .hidden-accordion-wrapper{
+        top: 54px;
+        padding-top: 10px;
+        opacity: 1;
+    }
+
+    .hidden-accordion-item-link{
+        font-size: 16px;
+        color: #828282;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .hidden-accordion-item-image{
+        margin-right: 18px;
+    }
+
+    .hidden-accordion-item:hover{
+        background-color: #EDF2F5;
+        border-radius: 0 0 10px 10px;
+    }
+
+
+    .main-header-search-wrapper{
+        padding: 0 20px;
+        height: 50px;
+        display: flex;
+        background-color: white;
+        border-radius: 8px;
+        margin-right: 100px;
+    }
+
+    .main-header-search{
+        border: none;
+        margin-right: 100px;
+        outline: none;
+        font-size: 18px;
+    }
+
+    .main-header-profile-welcome{
+        display: block;
+    }
+
+    .main-header-profile-credentials{
+        color: white;
+        display: inline-block;
+        text-align: right;
+        margin-right: 20px;
+        border-bottom: 1px solid white;
+        padding-bottom: 2px;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+    }
+
+    .main-header-user-icon{
+        height: 70px;
+    }
+
+    .main-header-profile-wrapper{
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .main-header-profile-wrapper:active{
+        text-decoration: none;
+    }
+
+    .main-header-wrapper{
+        display: flex;
+        align-items: center;
     }
 
     .message-form {
@@ -80,8 +245,6 @@
     input[type="submit"]:hover {
         background-color: darkblue;
     }
-
 </style>
-
 </body>
 </html>

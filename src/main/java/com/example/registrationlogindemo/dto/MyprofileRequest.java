@@ -15,5 +15,5 @@ public class MyprofileRequest {
     String location;
     Gender gender;
     LocalDate birthday;
-
 }
+

@@ -8,49 +8,195 @@
 </head>
 <body>
 <header class="main-header">
-  <a href="./main-page.html" class="main-header-logo"><img src="./img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+  <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
   <div class="main-header-wrapper">
     <label class="main-header-search-wrapper">
       <input type="search" class="main-header-search" placeholder="Add new profile">
-      <img src="./img/search-icon.svg" alt="Search Icon">
+      <img src="img/search-icon.svg" alt="Search Icon">
     </label>
     <div class="main-header-profile-wrapper">
       <div class="main-header-profile-credentials">
-        <span class="main-header-profile-welcome">Welcome,</span>
-        <span class="main-header-username">Sample User</span>
+                <span class="main-header-profile-welcome">
+                <h1>Welcome, [[${username}]]!</h1>
+                </span>
+
+
+        <!--                </span>-->
+        <!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
       </div>
-      <img class="main-header-user-icon" src="./img/user-icon-with-background.svg" alt="User Icon">
+      <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
       <div class="hidden-accordion-wrapper">
         <ul class="hidden-accordion">
-          <li class="hidden-accordion-item"><a href="./my-profile.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
-          <li class="hidden-accordion-item"><a href="./favourites.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
-          <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/message-icon.svg" alt="Message Icon">Chat</a></li>
-          <li class="hidden-accordion-item"><a href="./index.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
+          <li class="hidden-accordion-item">
+            <a href="my-profile" class="hidden-accordion-item-link">
+              <img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+          <li class="hidden-accordion-item"><a href="favorites.html" class="hidden-accordion-item-link">
+            <img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">
+            Favorites</a></li>
+          <li class="hidden-accordion-item">
+            <form method="post" action="/logout">
+              <input class="hidden-accordion-item-image"
+                     src="img/log-out-icon.svg"
+                     type="submit"
+                     value="Logout"
+                     alt="Log Out Icon"
+                     href="/logout">
+            </form>
+          </li>
         </ul>
       </div>
     </div>
   </div>
 </header>
 
-<div class="container">
-  <h1 class="favourites-title">Favourites</h1>
-  <div class="favourites-container">
+<!--<div class="favourites-container">-->
+<!--  <div th:each="user : ${users}" class="favourites-card">-->
+<!--    <img class="favourites-card-image" src="./img/sample-user-avatar.png" alt="Sample User Avatar">-->
+<!--    <h3 class="favourites-card-title" th:text="${user.firstname}"></h3>-->
+<!--    <p class="favourites-card-description">-->
+<!--      <span th:if="${likedUserIds.contains(user.id)}">Liked</span>-->
+<!--      <span th:if="${dislikedUserIds.contains(user.id)}">Disliked</span>-->
+<!--    </p>-->
+<!--    <a href="#" class="favourites-message-button"><img class="favourites-message-button-icon" src="./img/mail-icon.svg" alt="mail icon">Message</a>-->
+<!--    <form th:data-user-id="${user.id}" th:action="@{/favorites/remove}" method="post">-->
+<!--      <input type="hidden" name="userId" th:value="${user.id}" />-->
+<!--      <input type="hidden" name="status" value="liked" />-->
+<!--      <button type="submit">Remove</button>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--</div>-->
+
+<div class="favourites-container">
+  <div class="favourites-column">
+    <h2 class="favourites-column-header">Liked Users</h2>
     <div th:each="user : ${likedUsers}" class="favourites-card">
       <img class="favourites-card-image" src="./img/sample-user-avatar.png" alt="Sample User Avatar">
-      <h3 class="favourites-card-title" th:text="${user.username}"></h3>
-      <p class="favourites-card-description">Liked</p>
-      <a href="#" class="favourites-message-button"><img class="favourites-message-button-icon" src="./img/mail-icon.svg" alt="mail icon">Message</a>
-      <a href="#" class="favourites-card-remove"><img class="favourites-card-remove-icon" src="./img/favourite-icon-red.svg" alt="favourite icon">Remove</a>
+      <h3 class="favourites-card-title" th:text="${user.firstname}"></h3>
+      <p class="favourites-card-description">
+        <span>Liked</span>
+      </p>
+      <a href="chat.html" class="favourites-message-button"><img class="favourites-message-button-icon" src="./img/mail-icon.svg" alt="mail icon">Message</a>
+      <form th:data-user-id="${user.id}" th:action="@{/favorites/remove}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <input type="hidden" name="status" value="liked" />
+        <button type="submit" class="favourites-card-remove">Remove</button>
+      </form>
     </div>
+  </div>
+  <div class="favourites-column">
+    <h2 class="favourites-column-header">Disliked Users</h2>
     <div th:each="user : ${dislikedUsers}" class="favourites-card">
       <img class="favourites-card-image" src="./img/sample-user-avatar.png" alt="Sample User Avatar">
-      <h3 class="favourites-card-title" th:text="${user.username}"></h3>
-      <p class="favourites-card-description">Disliked</p>
+      <h3 class="favourites-card-title" th:text="${user.firstname}"></h3>
+      <p class="favourites-card-description">
+        <span>Disliked</span>
+      </p>
       <a href="#" class="favourites-message-button"><img class="favourites-message-button-icon" src="./img/mail-icon.svg" alt="mail icon">Message</a>
-      <a href="#" class="favourites-card-remove"><img class="favourites-card-remove-icon" src="./img/favourite-icon-red.svg" alt="favourite icon">Remove</a>
+      <form th:data-user-id="${user.id}" th:action="@{/favorites/remove}" method="post">
+        <input type="hidden" name="userId" th:value="${user.id}" />
+        <input type="hidden" name="status" value="disliked" />
+        <button type="submit" class="favourites-card-remove">Remove</button>
+      </form>
     </div>
   </div>
 </div>
+
+<style>
+  .favourites-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .favourites-column {
+    width: 48%;
+  }
+
+  .favourites-card {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .favourites-card-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .favourites-card-title {
+    margin: 10px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .favourites-card-description {
+    margin: 10px;
+  }
+
+  .favourites-card-description span {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .favourites-card-description .liked {
+    background-color: #60c5ba;
+    color: #fff;
+  }
+
+  .favourites-card-description .disliked {
+    background-color: #f84f4f;
+    color: #fff;
+  }
+
+  .favourites-message-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #60c5ba;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .favourites-card-remove {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f84f4f;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .favourites-column {
+      width: 100%;
+    }
+  }
+
+  .favourites-card-image {
+    width: 10vw;
+    height: auto;
+    display: block;
+    margin: auto;
+  }
+
+</style>
+
+
+
+
 
 </body>
 </html>

@@ -13,33 +13,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
-
-//  public MySecurityConfig(CreateUsersOnce creator) {
-//    creator.create();
-//  }
-
-//  @Override
-//  protected void configure(HttpSecurity http) throws Exception {
-//
-//    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//    http
-//        .authorizeRequests()
-//        .antMatchers("/auth/login/**").permitAll()
-//
-////        .antMatchers("/auth/**").permitAll()
-////        .antMatchers("/resources/**").permitAll()
-////        .antMatchers("/guest/**").permitAll()
-////        .antMatchers("/home/**").authenticated()
-////        .antMatchers("/admin/**").hasAnyRole("ADMIN")
-////        .antMatchers("/me/**").hasAnyRole("USER")
-////        .antMatchers("/news/**").hasAnyRole("ADMIN", "USER")
-////        .anyRequest().authenticated();
-//  }
   @Bean
   public PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
@@ -52,34 +35,58 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .withUser("admin").password("{noop}password").roles("USER", "ADMIN");
   }
-
   @Override
   public void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
             .antMatchers("/**").permitAll()
             .antMatchers("/users").hasRole("ADMIN")
-            .antMatchers("/login").permitAll()
-            .antMatchers("/register").permitAll()
+//            .antMatchers("/login").permitAll()
+//            .antMatchers("/register").permitAll()
+//            .antMatchers("/my-profile").permitAll()
+//            .antMatchers("/user").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
             .loginPage("/login")
-            .failureUrl("/login?error=true")
             .loginProcessingUrl("/authenticate")
-            .defaultSuccessUrl("/mainpage")
+            .permitAll()
             .and()
+            .formLogin()
+            .loginPage("/login")
+            .successForwardUrl("/login")
+            .failureHandler(authenticationFailureHandler())
+            .permitAll()
+            .and()
+
             .logout()
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-            .logoutSuccessUrl("/login")
+            .logoutUrl("/logout") // Logout işleminin yapılacağı URL
+            .invalidateHttpSession(true) // HttpSession'ın otomatik olarak geçersizleştirilmesi
+            .deleteCookies("JSESSIONID") // Oturum çerezlerinin silinmesi
+            .logoutSuccessUrl("/login") // Başarılı logout sonrası yönlendirilecek URL
             .and()
+
             .csrf().disable();
   }
 
+  @Bean
+  public AuthenticationFailureHandler authenticationFailureHandler() {
+    return new CustomAuthenticationFailureHandler();
+  }
+
+  public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler {
+    @Override
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
+                                        AuthenticationException exception) throws IOException, ServletException {
+      String errorMessage = "Incorrect username or password";
+      request.getSession().setAttribute("errorMessage", errorMessage);
+      response.sendRedirect("/login");
+    }
+  }
 
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
-
 }
+

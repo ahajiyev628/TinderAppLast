@@ -8,23 +8,41 @@
 </head>
 <body>
 <header class="main-header">
-  <a href="mainpage" class="main-header-logo"><img src="./img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
+  <a href="./main-page.html" class="main-header-logo"><img src="img/iba-tech-logo-white.svg" alt="IBA Tech Academy"></a>
   <div class="main-header-wrapper">
     <label class="main-header-search-wrapper">
       <input type="search" class="main-header-search" placeholder="Add new profile">
-      <img src="./img/search-icon.svg" alt="Search Icon">
+      <img src="img/search-icon.svg" alt="Search Icon">
     </label>
     <div class="main-header-profile-wrapper">
       <div class="main-header-profile-credentials">
-        <h1>Welcome, [[${username}]]!</h1>
+                <span class="main-header-profile-welcome">
+                <h1>Welcome, [[${username}]]!</h1>
+                </span>
+
+
+        <!--                </span>-->
+        <!--                        <span  th:text="${user.getName()}"></span>--><!--                 th:text="${#authentication.getName()}"-->
       </div>
-      <img class="main-header-user-icon" src="./img/user-icon-with-background.svg" alt="User Icon">
+      <img class="main-header-user-icon" src="img/user-icon-with-background.svg" alt="User Icon">
       <div class="hidden-accordion-wrapper">
         <ul class="hidden-accordion">
-          <li class="hidden-accordion-item"><a href="./my-profile.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
-          <li class="hidden-accordion-item"><a href="./favorites.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/favourite-icon.svg" alt="Favourite Icon">Favourites</a></li>
-          <li class="hidden-accordion-item"><a href="#" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/message-icon.svg" alt="Message Icon">Chat</a></li>
-          <li class="hidden-accordion-item"><a href="./index.html" class="hidden-accordion-item-link"><img class="hidden-accordion-item-image" src="./img/log-out-icon.svg" alt="Log Out Icon">Log Out</a></li>
+          <li class="hidden-accordion-item">
+            <a href="my-profile" class="hidden-accordion-item-link">
+              <img class="hidden-accordion-item-image" src="img/user-icon-gray.svg" alt="User Icon">Profile</a></li>
+          <li class="hidden-accordion-item"><a href="favorites.html" class="hidden-accordion-item-link">
+            <img class="hidden-accordion-item-image" src="img/favourite-icon.svg" alt="Favourite Icon">
+            Favorites</a></li>
+          <li class="hidden-accordion-item">
+            <form method="post" action="/logout">
+              <input class="hidden-accordion-item-image"
+                     src="img/log-out-icon.svg"
+                     type="submit"
+                     value="Logout"
+                     alt="Log Out Icon"
+                     href="/logout">
+            </form>
+          </li>
         </ul>
       </div>
     </div>
