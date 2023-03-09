@@ -108,14 +108,6 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
-    public List<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(List<Message> messages) {
-        this.messages = messages;
-    }
-
     public Set<Favorites> getFavorites() {
         return favorites;
     }

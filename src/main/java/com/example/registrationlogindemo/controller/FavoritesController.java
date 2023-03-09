@@ -25,14 +25,10 @@ import java.util.stream.Collectors;
 public class FavoritesController {
     @Autowired
     private final FavoritesService favoritesService;
-
     @Autowired
     private final UserRepository userRepository;
-
     @Autowired
     private final FavoritesRepository favoritesRepository;
-
-
     @Autowired
     private final UserService userService;
 
@@ -65,15 +61,16 @@ public class FavoritesController {
         model.addAttribute("dislikedUserIds", dislikedUserIds);
         model.addAttribute("likedUsers", likedUsers);
         model.addAttribute("dislikedUsers", dislikedUsers);
+        String username = (String) session.getAttribute("username"); // retrieve the username from the session
+        model.addAttribute("username", username);
 
         return "favorites";
     }
 
-
     @PostMapping("/favorites/{status}")
     public String updateFavorites(@RequestParam("userIds[]") List<Long> userIds, @PathVariable String status, Model model, HttpSession session) {
-       // User likedBy = userRepository.findByFirstname("Nizami"); //userService.getCurrentUser(); //Optional.ofNullable(userService.getCurrentUser());
-//        System.out.println(userRepository.findByUsername("Nizami"));
+       // User likedBy = userRepository.findByFirstname("Allahverdi"); //userService.getCurrentUser(); //Optional.ofNullable(userService.getCurrentUser());
+//        System.out.println(userRepository.findByUsername("Allahverdi"));
 //        System.out.println(userService.getCurrentUser());   // return null
         Long likedBy = (Long) session.getAttribute("userId");
 

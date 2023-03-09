@@ -7,7 +7,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
 
-//    @Query("SELECT Distinct f FROM Message f WHERE f.receiver.id = :receiverId AND f.sender.id = :senderId")
-//    Message findByReceiverAndSender(@Param("receiver_id") Long receiverId, @Param("sender_id") Long senderId);
+    @Query("SELECT Distinct f FROM Message f WHERE f.receiver.id = :receiverId AND f.sender.id = :senderId")
+    Message findByReceiverAndSender(@Param("receiverId") Long receiverId, @Param("senderId") Long senderId);
 
+    @Override
+    Message save(Message message);
 }

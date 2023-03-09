@@ -37,6 +37,14 @@ public class Favorites implements Serializable {
     @ManyToMany(mappedBy="favorites")
     private List<User> users;
 
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+            name = "messages_favorites",
+            joinColumns = { @JoinColumn(name = "user2_id") },
+            inverseJoinColumns = { @JoinColumn(name = "msg_id") }
+    )
+    private List<Message> messages = new ArrayList<>();
+
     public Favorites(String status, User likedBy, User likedUser) {
         this.status = status;
         this.likedBy = likedBy;

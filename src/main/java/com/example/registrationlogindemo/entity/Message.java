@@ -19,18 +19,18 @@ public class Message {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "msg_from", referencedColumnName = "id")
+    @JoinColumn(name = "senderId", referencedColumnName = "id")
     private User sender;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "msg_to", referencedColumnName = "id")
-    private User receiver;
+    @JoinColumn(name = "receiverId", referencedColumnName = "id")
+    private Favorites receiver;
 
     @Column(name = "msg_txt")
     private String msg_text;
 
     @ManyToMany(mappedBy="messages")
-    private List<User> users;
+    private List<Favorites> favorites;
 
     public Long getId() {
         return id;
@@ -48,11 +48,11 @@ public class Message {
         this.sender = sender;
     }
 
-    public User getReceiver() {
+    public Favorites getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(User receiver) {
+    public void setReceiver(Favorites receiver) {
         this.receiver = receiver;
     }
 
@@ -64,12 +64,12 @@ public class Message {
         this.msg_text = msg_text;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public List<Favorites> getFavorites() {
+        return favorites;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setFavorites(List<Favorites> favorites) {
+        this.favorites = favorites;
     }
 
     @Override
@@ -77,12 +77,12 @@ public class Message {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Message message = (Message) o;
-        return Objects.equals(id, message.id) && Objects.equals(sender, message.sender) && Objects.equals(receiver, message.receiver) && Objects.equals(msg_text, message.msg_text) && Objects.equals(users, message.users);
+        return Objects.equals(id, message.id) && Objects.equals(sender, message.sender) && Objects.equals(receiver, message.receiver) && Objects.equals(msg_text, message.msg_text) && Objects.equals(favorites, message.favorites);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, sender, receiver, msg_text, users);
+        return Objects.hash(id, sender, receiver, msg_text, favorites);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Message {
                 ", sender=" + sender +
                 ", receiver=" + receiver +
                 ", msg_text='" + msg_text + '\'' +
-                ", users=" + users +
+                ", favorites=" + favorites +
                 '}';
     }
 }

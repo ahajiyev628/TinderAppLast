@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,10 +45,21 @@ public class MainController {
 //    }
 
 
+//    @GetMapping("/mainpage")
+//    public String showHomePage(Model model) {
+//
+//        return "mainpage";
+//    }
+
     @GetMapping("/mainpage")
-    public String showHomePage(Model model) {
-        List<User> users = userRepository.findAll();
-        model.addAttribute("users", users);
+    public String showMainPage(HttpSession session, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            String username = (String) session.getAttribute("username"); // retrieve the username from the session
+            model.addAttribute("username", username);
+            List<User> users = userRepository.findAll();
+            model.addAttribute("users", users);
+        }
         return "mainpage";
     }
 
